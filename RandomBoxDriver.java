@@ -19,9 +19,6 @@ public class RandomBoxDriver {
 		System.out.println("Randomly chosen winner: " + numberDrawing.drawWinner());
 		System.out.println("Size is now 99: " + numberDrawing.size());
 		
-		// SUGGESTION: CREATE A RANDOMBOX THAT HOLDS SOME OTHER TYPE- ANY CLASS YOU'VE GOT!
-		
-		// UNCOMMENT WHEN YOU WRITE YOUR STATIC METHOD
 		System.out.println("\n***TESTING GENERIC METHOD***");
 		System.out.println("\nRandom Name Drawing: Should be 5 unique winners:");
 		List<String> nameWinners = pickMultipleUniqueWinners(nameDrawing, 5);
@@ -49,7 +46,7 @@ public class RandomBoxDriver {
 		smallContestWinners = pickMultipleUniqueWinners(smallDrawingTest, 3);
 		System.out.println(smallContestWinners);
 		System.out.println("Size is now 7: " + smallDrawingTest.size());
-
+		
 		System.out.println("\nNot Enough Entries Drawing: Code should take some logical action but should NOT return a list with duplicate winners or enter an infinite loop.");
 		RandomBox<String> insufficientContest = new RandomBox<String>();
 		insufficientContest.addEntry("Winner1");
@@ -57,30 +54,34 @@ public class RandomBoxDriver {
         insufficientContest.addEntry("Winner3");
 		List<String> insufficientWinners = pickMultipleUniqueWinners(insufficientContest, 4);
 		System.out.println(insufficientWinners);
-        // IMPORTANT NOTE: Depending on your solution, your program might end here.
-        // If it does, you should then comment out this section above so you can test 
-        // the next section. 
 
 		System.out.println("\nEmpty Drawing: Code should take some logical action but should NOT enter an infinite loop.");
 		RandomBox<Integer> emptyContest = new RandomBox<Integer>();
 		List<Integer> emptyWinners = pickMultipleUniqueWinners(emptyContest, 4);
 		System.out.println(emptyWinners);
-	    // IMPORTANT NOTE: Depending on your solution, your program might end here.
 		
 		System.out.println("Program complete!");
 		
 	}
 
 	public static <T> List<T> pickMultipleUniqueWinners(RandomBox<T> box, int numberWinners) {
-		List<T> winnerList = new ArrayList<>();
-		int count = 0;
 		
-		while(count < numberWinners) {
-			winnerList.add(box.drawWinner());
-			count++;
+		if(box.size() == 0) {
+			  throw new IllegalStateException("There are no entries in the box."); 
+		} else if (box.size() < numberWinners) {
+			throw new IllegalStateException("There are not enough entries for the contest.");
+		} else {
+		
+			List<T> winnerList = new ArrayList<>();
+			int count = 0;
+			
+			while(count < numberWinners) {
+				winnerList.add(box.drawWinner());
+				count++;
+			}
+			
+			return winnerList;
 		}
-		
-		return winnerList;
 		
 	}
 	
